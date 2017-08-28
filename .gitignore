@@ -1,0 +1,10 @@
+*.[ado]
+*.root
+bin/*
+*.dat
+*.gz
+Shot_Data/
+\#*\#
+*~
+.DS_Store
+*.swp
