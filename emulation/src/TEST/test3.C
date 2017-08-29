@@ -1,0 +1,38 @@
+void test3(){
+  TFile *file = new TFile("../../rootfile/BH1_1M_clusterkai.root");
+  TTree *tree = (TTree*)file->Get("tree");
+
+  double ms_time;
+  double ch_time[11];
+
+
+  tree->SetBranchAddress("ms_time",&ms_time);
+  tree->SetBranchAddress("BH1_ch",&ch_time);
+
+  TH1D *hist[12];
+  hist[0] = new TH1D("BH1 or","",301000,-10,3000);
+  for(int i=1; i<12; ++i){
+        hist[i] = new TH1D(Form("BH1 ch%d",i),"",301000,-10,3000);
+  }
+
+  int n = tree->GetEntries();
+        for(int i=0; i<n; ++i){
+                tree->GetEntry(i);
+                if(ms_time>0){
+                        hist[0]->Fill(ms_time);
+                }
+//                hist[0]->Fill(ms_time);
+                for(int j=1; j<12; ++j){
+                        if(ch_time[j-1] > 0){ 
+                                hist[j]->Fill(ch_time[j-1]);
+                        }
+                }
+        }
+ 
+  TCanvas *c1 = new TCanvas("c1","c1",1600,900);
+  c1->Divide(4,3);
+  for(int i=0; i<12; ++i){
+        c1->cd(i+1);
+        hist[i]->Draw();
+  }
+}

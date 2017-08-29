@@ -1,0 +1,11 @@
+CPPFLAGS += $(shell root-config --cflags)
+ROOTLIBS = $(shell root-config --glibs)
+EXTRALIBS += $(ROOTLIBS)
+
+all:decode1
+
+decode1: decode1.o
+	$(CXX) -o decode1 decode1.o $(EXTRALIBS)
+
+decode1.o: decode1.C
+	$(CXX) -c decode1.C $(CPPFLAGS)
