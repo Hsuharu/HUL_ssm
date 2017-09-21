@@ -21,6 +21,10 @@ void trigger_efficiency(){
   double entries1[13];
   double entries2[13];
   double efficiency1[13];
+  double count[13];
+  double sum[13];
+  double average[13];
+  double number_of_bin[13];
 
   int color[]={1,2,7};
   int n[13];
@@ -32,7 +36,6 @@ void trigger_efficiency(){
 ///  TFile *file = new TFile("../../../rootfile/BH1_20M_cluster.root");
 
 
-  fout1[0] = ("../DAT/Efficiency_1M.dat"); 
   pre_ms_time[0] = 0;
   for(int i=0; i<13; ++i){
           if(i==0){
@@ -50,13 +53,13 @@ void trigger_efficiency(){
         if(i==0){
                hist[i][0] = new TH1D(Form("BH1 or %dM",i+1),"",301000,-10,3000);
                hist[i][1] = new TH1D(Form("BH1 or %dM Trigger(1/10000)",i+1),"",301000,-10,3000);
-//               hist[i][2] = new TH1D(Form("BH1 or %dM Trigger & mask(30micros)",i+1),"",301000,-10,3000);
-               hist[i][2] = new TH1D(Form("BH1 or %dM Trigger & mask(110micros)",i+1),"",301000,-10,3000);
+               hist[i][2] = new TH1D(Form("BH1 or %dM Trigger & mask(30micros)",i+1),"",301000,-10,3000);
+//               hist[i][2] = new TH1D(Form("BH1 or %dM Trigger & mask(110micros)",i+1),"",301000,-10,3000);
         }else{
                hist[i][0] = new TH1D(Form("BH1 or %dM",i*2),"",301000,-10,3000);
                hist[i][1] = new TH1D(Form("BH1 or %dM Trigger(1/10000)",i*2),"",301000,-10,3000);
-//               hist[i][2] = new TH1D(Form("BH1 or %dM Trigger & mask(30micros)",i*2),"",301000,-10,3000);
-               hist[i][2] = new TH1D(Form("BH1 or %dM Trigger & mask(110micros)",i*2),"",301000,-10,3000);
+               hist[i][2] = new TH1D(Form("BH1 or %dM Trigger & mask(30micros)",i*2),"",301000,-10,3000);
+//               hist[i][2] = new TH1D(Form("BH1 or %dM Trigger & mask(110micros)",i*2),"",301000,-10,3000);
         }
           
 //  }
@@ -85,6 +88,18 @@ void trigger_efficiency(){
                 }
         }
 //  }
+// Calculation ---------------------------------------------------------------
+  count[i]=0;
+  sum[i] = 0;
+  number_of_bin[i]=0;
+
+   for(int j=0; j<200000; ++j){
+                count[i] = hist[i][2]->GetBinContent(j+60000);
+                        sum[i] = sum[i] + count[i];
+                        ++number_of_bin[i];
+        }
+
+  average[i] = sum[i] / number_of_bin[i];
 
         entries1[i] = hist[i][1]->GetEntries();
         entries2[i] = hist[i][2]->GetEntries();
@@ -107,38 +122,47 @@ void trigger_efficiency(){
               if(j==2){
                       hist[i][j]->Scale(max_value[i]/10,"");
               }
+              hist[i][j]->GetXaxis()->SetTitle("[ms]");
+              hist[i][j]->GetYaxis()->SetTitleOffset(1.2);
+              hist[i][j]->GetYaxis()->SetTitle("[counts/10micro sec]");
               hist[i][j]->Draw("hist same");
         }
 
         if(i==0){
 //                 fout1[i]= (Form("../DAT/Efficiency_%dM.dat",i+1));
                  c[i]->Print("Trigger_Efficiency_1M_110.pdf");
+//                 c[i]->Print("Trigger_Efficiency_1M_30.pdf");
         }else{
 //                 fout1[i]= (Form("../DAT/Efficiency_%dM.dat",2*i));
                  c[i]->Print(Form("Trigger_Efficiency_%dM_110.pdf",2*i));
+//                 c[i]->Print(Form("Trigger_Efficiency_%dM_30.pdf",2*i));
         }
 
         entries[i] = hist[i][0]->GetEntries(); 
   }
 
 // file.dat out --------------------------------------------------------------        
-//  fout1[0] = ("../DAT/Efficiency.dat");
-//  fout1[1] = ("../DAT/entries.dat");
-//  fout1[2] = ("../DAT/trigger_entries.dat");
-//  fout1[3] = ("../DAT/alltrigger_entries.dat");
+ // fout1[0] = ("../DAT/Efficiency.dat");
+ // fout1[1] = ("../DAT/entries.dat");
+ // fout1[2] = ("../DAT/trigger_entries.dat");
+ // fout1[3] = ("../DAT/alltrigger_entries.dat");
+//  fout1[4] = ("../DAT/average.dat");
   fout1[0] = ("../DAT/Efficiency_110.dat");
   fout1[1] = ("../DAT/entries_110.dat");
   fout1[2] = ("../DAT/trigger_entries_110.dat");
   fout1[3] = ("../DAT/alltrigger_entries_110.dat");
+  fout1[4] = ("../DAT/average_110.dat");
   ofstream fout_1(fout1[0].Data());
   ofstream fout_2(fout1[1].Data());
   ofstream fout_3(fout1[2].Data());
   ofstream fout_4(fout1[3].Data());
+  ofstream fout_5(fout1[4].Data());
   for(int i=0;i<13;++i){
           fout_1 << efficiency1[i] << endl;
           fout_2 << entries[i] << endl;
           fout_3 << entries2[i] << endl;
           fout_4 << entries1[i] << endl;
+          fout_5 << average[i] << endl;
          
   }  
 
