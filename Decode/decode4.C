@@ -39,6 +39,7 @@
 #include <TSystem.h>
 #include <TH1.h>
 #include <TH2.h>
+#include <RStringView.h>
 
 
 
@@ -140,8 +141,8 @@ transform_timestamp(unsigned int data, unsigned int &stamp)
 // ************ main fanction ************* 
 void decode4(){
 //TFile and Tree
-///  TFile f("../emulation/rootfile/BH1_1M_cluster.root","recreate");
-///  TTree tree("tree","BH1_1M");//1M
+  TFile f("../emulation/rootfile/BH1_1M_cluster.root","recreate");
+  TTree tree("tree","BH1_1M");//1M
 ///  TFile f("../emulation/rootfile/BH1_2M_cluster.root","recreate");
 ///  TTree tree("tree","BH1_2M");//2M
 ///  TFile f("../emulation/rootfile/BH1_4M_cluster.root","recreate");
@@ -163,9 +164,15 @@ void decode4(){
 ///  TFile f("../emulation/rootfile/BH1_20M_cluster.root","recreate");
 ///  TTree tree("tree","BH1_20M");//20M
 ///  TFile f("../emulation/rootfile/BH1_22M_cluster.root","recreate");
+<<<<<<< HEAD
 ///  TTree tree("tree","BH1_22M");//22M
 ///  TFile f("../emulation/rootfile/BH1_24M_cluster.root","recreate");
 ///  TTree tree("tree","BH1_24M");//24M
+=======
+///  TTree tree("tree","BH1_22M");//17M
+///  TFile f("../emulation/rootfile/BH1_24M_cluster.root","recreate");
+///  TTree tree("tree","BH1_24M");//17M
+>>>>>>> 1c8d97f431340939ce7271387b94f249c853a13d
   
 
 //hist ---------------------------------------- 
@@ -176,7 +183,7 @@ void decode4(){
   }
 
 
-///  std::ifstream fs("../Shot_Data/shot390825/ssm.dat");//1M/spill
+  std::ifstream fs("../Shot_Data/shot390825/ssm.dat");//1M/spill
 ///  std::ifstream fs("../Shot_Data/shot390941/ssm.dat");//2M/spill
 ///  std::ifstream fs("../Shot_Data/shot390992/ssm.dat");//4M/spill
 ///  std::ifstream fs("../Shot_Data/shot391040/ssm.dat");//6M/spill
