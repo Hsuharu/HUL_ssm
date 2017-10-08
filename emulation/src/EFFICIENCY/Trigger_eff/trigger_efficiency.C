@@ -27,8 +27,8 @@ void trigger_efficiency(){
   double sum[13];
   double average[13];
   double number_of_bin[13];
-  int busy = 70; //micro sec
-  double  busy_ms  = 0.070; //ms 
+  int busy = 30; //micro sec
+  double  busy_ms  = 0.030; //ms 
   
 
   int color[]={1,2,7};
@@ -49,7 +49,6 @@ void trigger_efficiency(){
                 file[i] = new TFile(Form("../../../rootfile/BH1_%dM_cluster.root",2*i));
           } 
           tree[i] = (TTree*)file[i]->Get("tree");
-          pre_ms_time[i] = 0;
 
           tree[i]->SetBranchAddress("ms_time",&ms_time[i]);
           tree[i]->SetBranchAddress("BH1_ch",&ch_time[i][0]);
@@ -68,6 +67,14 @@ void trigger_efficiency(){
           
 
    n[i] = tree[i]->GetEntries();
+
+                for(int s=0; s<10; ++s){
+                        pre_ms_time[i] = 0;
+                        hist[i][0]->Reset();
+                        hist[i][1]->Reset();
+                        hist[i][2]->Reset();
+                        hist[i][3]->Reset();
+
         for(int j=0; j<n[i]; ++j){
                 tree[i]->GetEntry(j);
                 if(ms_time[i]>0){
@@ -105,11 +112,10 @@ void trigger_efficiency(){
 
         entries1[i] = hist[i][1]->GetEntries();
         entries2[i] = hist[i][2]->GetEntries();
-        efficiency1[i] = entries2[i]/entries1[i];
-//        efficiency1[s][i] = entries2[i]/entries1[i];
-        cout << efficiency1[i] << "" << endl;
+        efficiency[s][i] = entries2[i]/entries1[i];
+        eff[i] = efficiency[s][i] + eff[i];
+        cout << efficiency[s][i] << "" << endl;
  
-
         c[i] = new TCanvas(Form("c%d",i+1),Form("c%d",i+1),1600,900);
 //        c[i]->Divide(2,1);
         max_bin[i] = hist[i][0]->GetMaximumBin();
@@ -140,6 +146,9 @@ void trigger_efficiency(){
         }
 
         entries[i] = hist[i][0]->GetEntries(); 
+  }
+                efficiency1[i] = eff[i]/10;
+                cout << efficiency1[i] << "" << endl;
   }
 
         c14 = new TCanvas("c14","c14",1600,900);
