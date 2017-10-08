@@ -156,16 +156,16 @@ void decode4(){
 ///  TTree tree("tree","BH1_12M");//12M
 ///  TFile f("../emulation/rootfile/BH1_14M_cluster.root","recreate");
 ///  TTree tree("tree","BH1_14M");//12M
-///  TFile f("../emulation/rootfile/BH1_16M_cluster.root","recreate");
-///  TTree tree("tree","BH1_16M");//17M
+  TFile f("../emulation/rootfile/BH1_16M_cluster.root","recreate");
+  TTree tree("tree","BH1_16M");//16M
 ///  TFile f("../emulation/rootfile/BH1_18M_cluster.root","recreate");
-///  TTree tree("tree","BH1_18M");//17M
+///  TTree tree("tree","BH1_18M");//18M
 ///  TFile f("../emulation/rootfile/BH1_20M_cluster.root","recreate");
 ///  TTree tree("tree","BH1_20M");//20M
 ///  TFile f("../emulation/rootfile/BH1_22M_cluster.root","recreate");
-///  TTree tree("tree","BH1_22M");//17M
-  TFile f("../emulation/rootfile/BH1_24M_cluster.root","recreate");
-  TTree tree("tree","BH1_24M");//17M
+///  TTree tree("tree","BH1_22M");//22M
+///  TFile f("../emulation/rootfile/BH1_24M_cluster.root","recreate");
+///  TTree tree("tree","BH1_24M");//24M
   
 
 //hist ---------------------------------------- 
@@ -184,11 +184,11 @@ void decode4(){
 ///  std::ifstream fs("../Shot_Data/shot391194/ssm.dat");//10M/spill
 ///  std::ifstream fs("../Shot_Data/shot391246/ssm.dat");//12M/spill
 ///  std::ifstream fs("../Shot_Data/shot391301/ssm.dat");//14M/spill
-///  std::ifstream fs("../Shot_Data/shot391376/ssm.dat");//16M/spill
+  std::ifstream fs("../Shot_Data/shot391376/ssm.dat");//16M/spill
 ///  std::ifstream fs("../Shot_Data/shot391437/ssm.dat");//18M/spill
 ///  std::ifstream fs("../Shot_Data/shot391511/ssm.dat");//20M/spill
 ///  std::ifstream fs("../Shot_Data/shot391578/ssm.dat");//22M/spill
-  std::ifstream fs("../Shot_Data/shot391651/ssm.dat");//24M/spill
+///  std::ifstream fs("../Shot_Data/shot391651/ssm.dat");//24M/spill
   
 //dataCont define
   std::vector<dataCont> data_list;

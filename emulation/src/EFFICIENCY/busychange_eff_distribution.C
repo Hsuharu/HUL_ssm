@@ -22,7 +22,7 @@ busy = 30;
 
         eff_i=0;
 //  ifstream ifs1(Form("./DAT/%d/Efficiency_%d.dat",busy,busy));  
-  ifstream ifs1(Form("./DAT/%d/Efficiency.dat",busy));  
+  ifstream ifs1(Form("./DAT/%d/Efficiency_%d.dat",busy,busy));  
   while(ifs1 >> eff)
     {
         efficiency[0][eff_i] = eff;
