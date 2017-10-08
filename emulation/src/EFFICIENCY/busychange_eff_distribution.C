@@ -1,4 +1,4 @@
-void eff_distribution(){
+void busychange_eff_distribution(){
 
   int eff_i = 0;
   double eff;
@@ -11,7 +11,7 @@ void eff_distribution(){
   int busy = 0;
 
 busy = 30;
-  ifstream ifs0(Form("./DAT/%d/entries.dat",busy));  
+  ifstream ifs0(Form("./DAT/%d/entries_%d.dat",busy,busy));  
 //  ifstream ifs1("./DAT/entries_110.dat");  
   while(ifs0 >> eff)
     {

@@ -17,20 +17,22 @@ void trigger_efficiency(){
 	double ms_time[13];
 	double pre_ms_time[13];
 	double delta_t[13];
-	double ch_time[13][11];
+	double ch_time[13][12];
 	double trigger[13];
 	double entries1[13];
 	double entries2[13];
 	//  double efficiency1[10][13];
+  int loop = 10;
+  double d_loop = 10;
   double efficiency[10][13];
-  double eff[10];
+  double eff[13];
 	double efficiency1[13];
 	double count[13];
 	double sum[13];
 	double average[13];
 	double number_of_bin[13];
-	int busy = 70; //micro sec
-	double  busy_ms  = 0.070; //ms 
+	int busy = 60; //micro sec
+	double  busy_ms  = 0.060; //ms 
 
 
 	int color[]={1,2,7};
@@ -70,7 +72,7 @@ void trigger_efficiency(){
 
 		n[i] = tree[i]->GetEntries();
 
-		for(int s=0; s<10; ++s){
+		for(int s=0; s<loop; ++s){
 			pre_ms_time[i] = 0;
 			hist[i][0]->Reset();
 			hist[i][1]->Reset();
@@ -150,7 +152,7 @@ void trigger_efficiency(){
 			//
 			entries[i] = hist[i][0]->GetEntries(); 
 		}
-		efficiency1[i] = eff[i]/10;
+		efficiency1[i] = eff[i]/d_loop;
 		cout << efficiency1[i] << "" << endl;
 	}
 	//
