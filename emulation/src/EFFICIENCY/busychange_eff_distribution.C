@@ -5,6 +5,7 @@ void busychange_eff_distribution(){
   double efficiency[5][13];
   double entries[13];
   double entries_M[13];
+  double entries_k[13];
   double trigger_entries[13];
   double alltrigger_entries[13];
   double average[13];
@@ -17,6 +18,16 @@ busy = 30;
     {
         entries[eff_i] = eff;
         entries_M[eff_i] = entries[eff_i]/1000000;
+        eff_i++;
+    }
+
+        eff_i=0;
+
+  ifstream ifs10(Form("./DAT/%d/alltrigger_entries_%d.dat",busy,busy));  
+  while(ifs10 >> eff)
+    {
+        entries[eff_i] = eff;
+        entries_k[eff_i] = entries[eff_i]/1000;
         eff_i++;
     }
 
@@ -73,13 +84,18 @@ busy = 70;
   int number = 13;//Number of channel
 
 // TGraph---------------------------------------------------------------------
-  TGraph *graph[5];
+  TGraph *graph[10];
 //  for(int i=0; i<11; ++i){
          graph[0] = new TGraph(number,&(entries_M[0]),&(efficiency[0][0]));
          graph[1] = new TGraph(number,&(entries_M[0]),&(efficiency[1][0]));
          graph[2] = new TGraph(number,&(entries_M[0]),&(efficiency[2][0]));
          graph[3] = new TGraph(number,&(entries_M[0]),&(efficiency[3][0]));
          graph[4] = new TGraph(number,&(entries_M[0]),&(efficiency[4][0]));
+         graph[5] = new TGraph(number,&(entries_k[0]),&(efficiency[0][0]));
+         graph[6] = new TGraph(number,&(entries_k[0]),&(efficiency[1][0]));
+         graph[7] = new TGraph(number,&(entries_k[0]),&(efficiency[2][0]));
+         graph[8] = new TGraph(number,&(entries_k[0]),&(efficiency[3][0]));
+         graph[9] = new TGraph(number,&(entries_k[0]),&(efficiency[4][0]));
 //  }
 
 // TCanvas--------------------------------------------------------------------
@@ -112,7 +128,36 @@ busy = 70;
         graph[i]->Draw("lp");
          }
 
+// TCanvas--------------------------------------------------------------------
+  TCanvas *c2 = new TCanvas("c2","c2",800,700);
 
-  c1->Print("Efficiency_Distribution_busychange.pdf");
+// Frame ---------------------------------------------------------------------
+  TH1 *frame2=gPad->DrawFrame(0,0.88,3,1.00,"DAQ Efficiency ver.kcount");      
+  gPad->SetGrid();
+  frame2->GetXaxis()->SetTitle("Entries(k counts)");
+  frame2->GetYaxis()->SetTitleOffset(1.2);
+  frame2->GetYaxis()->SetTitle("Efficiency");
+
+// Legend --------------------------------------------------------------------
+  TLegend *legend2 = new TLegend(0.7,0.7,0.9,0.9);
+          
+        frame2->Draw();
+        for(int i=5 ; i<10; i++){
+        graph[i]->SetMarkerStyle(21);
+        graph[i]->SetLineStyle(2);
+        if(i<9){
+                graph[i]->SetMarkerColor(i-4);
+                graph[i]->SetLineColor(i-4);
+        }else{
+                graph[i]->SetMarkerColor(kMagenta);
+                graph[i]->SetLineColor(kMagenta);
+        }
+        legend2->AddEntry(graph[i],Form("%dmicrosec",30+(i-5)*10),"p");
+        legend2->Draw();
+        graph[i]->Draw("lp");
+         }
+
+
+  c2->Print("Efficiency_Distribution_busychange_verk.pdf");
   
 }
